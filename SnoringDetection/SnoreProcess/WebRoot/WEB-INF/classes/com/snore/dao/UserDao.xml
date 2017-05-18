@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.snore.dao.UserDao">
+	<!-- 自定义返回结果集 -->
+	<resultMap id="userMap" type="com.snore.entity.User">
+		<id property="id" column="id" javaType="java.lang.Integer"></id>
+		<result property="startTime" column="startTime" javaType="java.lang.Integer"></result>
+		<result property="endTime" column="endTime" javaType="java.lang.Integer"></result>
+		<result property="duration" column="duration" javaType="java.lang.Integer"></result>
+		<result property="meanValue" column="meanValue" javaType="java.lang.Double"></result>
+		<result property="maximumValue" column="maximumValue" javaType="java.lang.Double"></result>
+		<result property="dateTime" column="dateTime" javaType="java.util.Date"></result>
+	</resultMap>
+	<!-- 在各种标签中的id属性必须和接口中的方法名相同,id属性值必须是唯一的，不能够重复使用。parameterType属性指明查询时使用的参数类型，resultType属性指明查询返回的结果集类型 -->
+	<!-- useGeneratedKeys：（仅对insert有用） 这 会 告 诉 MyBatis 使 用 JDBC 的getGeneratedKeys 
+		 方法来取出由数据（比如：像 MySQL 和 SQLServer 这样的数据库管理系统的自动递增字段）内部生成的主键。默认值： false。 -->
+	<!-- keyProperty:（仅对 insert有用）标记一个属性， MyBatis 会通过 getGeneratedKeys或者通过 insert 
+		语句的 selectKey 子元素设置它的值。默认：不设置。 -->
+	<!-- #{}中的内容，为占位符，当参数为某个JavaBean时，表示放置该Bean对象的属性值 -->
+
+	<select id="selectUserById" parameterType="int" resultMap="userMap">
+		select * from snore where id=#{id}
+	</select>
+	
+	<select id="selectAllUser" resultMap="userMap">
+		select * from snore
+	</select>
+	
+	<select id="selectUserByDate" parameterType="String" resultMap="userMap">
+		select * from snore where dateTime like "%"#{date}"%"
+	</select>
+	
+	<delete id="deleteData" parameterType="String">
+		delete from snore where dateTime> #{date}
+	</delete>
+
+
+</mapper>   
